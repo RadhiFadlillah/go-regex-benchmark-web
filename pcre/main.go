@@ -1,23 +1,50 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 
 	pcre "github.com/GRbit/go-pcre"
 )
 
-func measure(data []byte, pattern string) {
+func openAllFiles(dir string) ([][]byte, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	var files [][]byte
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+
+		srcPath := filepath.Join(dir, entry.Name())
+		file, err := os.ReadFile(srcPath)
+		if err != nil {
+			return nil, err
+		}
+
+		files = append(files, file)
+	}
+
+	return files, nil
+}
+
+func measure(allFiles [][]byte, pattern string) {
 	r, err := pcre.CompileJIT(pattern, 0, pcre.STUDY_JIT_COMPILE)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	var count int
 	start := time.Now()
-	count := len(r.FindAllIndex(data, 0))
+	for i := range allFiles {
+		count += len(r.FindAllIndex(allFiles[i], 0))
+	}
 	elapsed := time.Since(start)
 
 	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
@@ -25,28 +52,23 @@ func measure(data []byte, pattern string) {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("Usage: benchmark <filename>")
+		fmt.Println("Usage: benchmark <filedir>")
 		os.Exit(1)
 	}
 
-	filerc, err := os.Open(os.Args[1])
+	allFiles, err := openAllFiles(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer filerc.Close()
-
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(filerc)
-	data := buf.Bytes()
 
 	// Email
-	measure(data, `[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
+	measure(allFiles, `[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
 
 	// URI
-	measure(data, `[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
+	measure(allFiles, `[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
 
 	// IP
-	measure(data, `(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
+	measure(allFiles, `(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
 
 	// Long date pattern
 	day := `[0-3]?[0-9]`
@@ -64,5 +86,5 @@ func main() {
 		`|`+
 		`(%[3]s)(?:st|nd|rd|th|\.)?\s(?:of\s)?(%[2]s)[,.]?\s(%[1]s)`,
 		year, month, day)
-	measure(data, longDatePattern)
+	measure(allFiles, longDatePattern)
 }

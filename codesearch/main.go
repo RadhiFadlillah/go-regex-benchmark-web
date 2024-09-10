@@ -1,17 +1,44 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/google/codesearch/regexp"
 )
 
-func measure(data []byte, pattern string) {
+func openAllFiles(dir string) ([][]byte, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	var files [][]byte
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+
+		srcPath := filepath.Join(dir, entry.Name())
+		file, err := os.ReadFile(srcPath)
+		if err != nil {
+			return nil, err
+		}
+
+		files = append(files, file)
+	}
+
+	return files, nil
+}
+
+func measure(allFiles [][]byte, pattern string) {
 	r, err := regexp.Compile(pattern)
 	if err != nil {
 		log.Fatal(err)
@@ -25,39 +52,43 @@ func measure(data []byte, pattern string) {
 	}
 
 	start := time.Now()
-	grep.Reader(bytes.NewReader(data), "")
-	strCount := buf.String()
-	strCount = strings.TrimSpace(strCount)
-	strCount = strings.TrimPrefix(strCount, ": ")
+	for i := range allFiles {
+		grep.Reader(bytes.NewReader(allFiles[i]), "")
+	}
 	elapsed := time.Since(start)
 
-	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), strCount)
+	var count int
+	scanner := bufio.NewScanner(buf)
+	for scanner.Scan() {
+		line := scanner.Text()
+		line = strings.TrimSpace(line)
+		line = strings.TrimPrefix(line, ": ")
+		lineValue, _ := strconv.Atoi(line)
+		count += lineValue
+	}
+
+	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
 }
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("Usage: benchmark <filename>")
+		fmt.Println("Usage: benchmark <filedir>")
 		os.Exit(1)
 	}
 
-	filerc, err := os.Open(os.Args[1])
+	allFiles, err := openAllFiles(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer filerc.Close()
-
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(filerc)
-	data := buf.Bytes()
 
 	// Email
-	measure(data, `[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
+	measure(allFiles, `[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
 
 	// URI
-	measure(data, `[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
+	measure(allFiles, `[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
 
 	// IP
-	measure(data, `(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
+	measure(allFiles, `(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
 
 	// Long date pattern
 	day := `[0-3]?[0-9]`
@@ -75,5 +106,5 @@ func main() {
 		`|`+
 		`(%[3]s)(?:st|nd|rd|th|\.)?\s(?:of\s)?(%[2]s)[,.]?\s(%[1]s)`,
 		year, month, day)
-	measure(data, longDatePattern)
+	measure(allFiles, longDatePattern)
 }
