@@ -1,16 +1,15 @@
-# Go Regex Benchmark
+# Go Regex Benchmark Web
 
-This repo is a benchmark for various Golang's regular expressions library. Based on benchmark by Rustem Kamalov [here][original-benchmark].
+This repo is a benchmark for various Golang's regular expressions library. Based on my benchmark [here][benchmark-old], which is based on benchmark by Rustem Kamalov [here][original-benchmark].
 
-Unlike the original repository, here I only focus on Go language without caring about its performance compared to the other languages.
+For its input, this benchmark use 1,058 web pages in [`000-input-files`](./000-input-files) directory. Hopefully it's good enough as representation of real world content.
 
 ## Table of Contents
 
-- [Input Text](#input-text)
+- [How to Run](#how-to-run)
 - [Regex Patterns](#regex-patterns)
   - [Short Regex](#short-regex)
   - [Long Regex](#long-regex)
-- [Measurement](#measurement)
 - [Used Packages](#used-packages)
   - [Native Go Packages](#native-go-packages)
   - [Regex with CGO Binding](#regex-with-cgo-binding)
@@ -21,9 +20,15 @@ Unlike the original repository, here I only focus on Go language without caring 
   - [Long Regex](#long-regex-1)
 - [License](#license)
 
-## Input Text
+## How to Run
 
-Like the original, the [input text](./input-text.txt) is a concatenation of [Learn X in Y minutes][x-in-y] repository.
+If you are using GNU Make, you can simply run `make` in the root directory of this benchmark:
+
+```
+make clean-all    # clean the old build
+make build-all    # rebuild the benchmark executable
+make              # run the benchmark
+```
 
 ## Regex Patterns
 
@@ -64,12 +69,6 @@ The final pattern is defined as:
 ```
 (?i)({month})\s({day})(?:st|nd|rd|th)?,?\s({year})|({day})(?:st|nd|rd|th|\.)?\s(?:of\s)?({month})[,.]?\s({year})
 ```
-
-## Measurement
-
-Unlike the original, measuring is done without including regex compilation. So the measurement only focused on pattern matching.
-
-The measurement are done 10 times, then the smallest durations are used as the final durations.
 
 ## Used Packages
 
@@ -126,57 +125,60 @@ The benchmark was run on Linux with Intel i7-8550U with RAM 16 GB.
 
 ### Short Regex
 
-|   Package   |     Type      | Email (ms) | URI (ms) | IP (ms) | Total (ms) |  Times |
-| :---------: | :-----------: | ---------: | -------: | ------: | ---------: | -----: |
-|   RE2 CGO   |      CGO      |      13.71 |    15.39 |   10.81 |      39.91 | 22.31x |
-| Code Search | Native (Grep) |      14.89 |    14.70 |   12.66 |      42.25 | 21.07x |
-|  Hyperscan  |      CGO      |      34.68 |    28.15 |    0.83 |      63.65 | 13.99x |
-|    PCRE     |      CGO      |      31.67 |    25.75 |    9.19 |      66.61 | 13.37x |
-|    re2go    |   Compiler    |      79.54 |    45.90 |   21.48 |     146.91 |  6.06x |
-|  RE2 WASM   |     WASM      |      52.37 |    57.68 |   50.26 |     160.31 |  5.55x |
-|  Regexp2Go  |   Compiler    |      78.91 |   610.26 |  173.29 |     862.46 |  1.03x |
-| Go std lib  |    Native     |     250.84 |   245.60 |  393.85 |     890.28 |  1.00x |
-|   Modernc   |    Native     |     255.67 |   242.96 |  392.64 |     891.28 |  1.00x |
-|   Grafana   |    Native     |     268.57 |   248.11 |  402.69 |     919.37 |  0.97x |
-|  Regexp2cg  |   Compiler    |    1896.41 |  1718.47 |   66.01 |    3680.89 |  0.24x |
-|   Regexp2   |    Native     |    2229.39 |  2051.56 |   76.79 |    4357.75 |  0.20x |
+|   Package   |     Type      | Email (ms) |  URI (ms) |  IP (ms) | Total (ms) |
+| :---------: | :-----------: | ---------: | --------: | -------: | ---------: |
+|   RE2 CGO   |      CGO      |     221.29 |    345.34 |   224.52 |     791.15 |
+| Code Search | Native (Grep) |     263.00 |    300.81 |   257.84 |     821.65 |
+|    PCRE     |      CGO      |     764.56 |    486.42 |   462.49 |    1713.47 |
+|  Hyperscan  |      CGO      |     595.38 |   2654.13 |    41.14 |    3290.65 |
+|  RE2 WASM   |     WASM      |    1189.12 |   1533.30 |  1187.08 |    3909.50 |
+| Go std lib  |    Native     |    6544.45 |   6926.63 | 10321.36 |   23792.44 |
+|   Grafana   |    Native     |    6600.02 |   7148.91 | 10169.21 |   23918.14 |
+|   Modernc   |    Native     |    6715.16 |   7216.19 | 10309.89 |   24241.23 |
+|    re2go    |   Compiler    |   31545.11 |   7748.29 |   467.68 |   39761.08 |
+|  Regexp2cg  |   Compiler    |  452673.57 | 191651.48 |  2899.08 |  647224.13 |
+|   Regexp2   |    Native     |  568837.37 | 239814.81 |  3717.81 |  812369.98 |
+|  Regexp2Go  |   Compiler    |            |           |          |            |
 
 Some interesting points:
 
 - It's amazing to see how fast Code Search is. It's almost as fast as RE2 with cgo.
-- For code without cgo, regex that compiled by re2go has the best performance. However, since some Go's regex syntaxes are not supported by re2go, there are needs to modify the regex patterns before using it.
-- For code without cgo but with full regex compatibility, RE2 WASM has the best performance albeit a bit slower than re2go.
+- For some reasons code that generated by re2go has inconsistent performance. For the shortest pattern (email) it's slower than Go's standard library. However for the longest pattern (IP) it's faster than PCRE that uses cgo binding.
+- For code without cgo but with full regex compatibility and consistent performance, RE2 WASM is the fastest.
+- For some reasons code that generated by Regexp2Go doesn't work, so it's skipped for now.
 
 ### Long Regex
 
-|   Package   |    Type     | Long Date (ms) |     Times |
-| :---------: | :---------: | -------------: | --------: |
-|  Hyperscan  |     CGO     |           1.10 | 11766.05x |
-|   RE2 CGO   |     CGO     |          13.60 |   949.04x |
-| Code Search | Native Grep |          46.00 |   280.55x |
-|    re2go    |  Compiler   |          47.20 |   273.43x |
-|  RE2 WASM   |    WASM     |          60.80 |   212.25x |
-|    PCRE     |     CGO     |         167.13 |    77.22x |
-|   Grafana   |   Native    |        3330.87 |     3.87x |
-|   Regexp2   |   Native    |        4319.13 |     2.99x |
-|  Regexp2cg  |  Compiler   |        5031.48 |     2.56x |
-|  Regexp2Go  |  Compiler   |        7435.22 |     1.74x |
-|   Modernc   |   Native    |       12639.61 |     1.02x |
-| Go std lib  |   Native    |       12905.60 |     1.00x |
+|   Package   |     Type      | Long Date (ms) |    Times |
+| :---------: | :-----------: | -------------: | -------: |
+|  Hyperscan  |      CGO      |          52.81 | 6338.55x |
+|   RE2 CGO   |      CGO      |         233.61 | 1432.99x |
+| Code Search | Native (Grep) |         365.35 |  916.30x |
+|    re2go    |   Compiler    |         903.54 |  370.50x |
+|  RE2 WASM   |     WASM      |        1201.96 |  278.51x |
+|    PCRE     |      CGO      |        7421.20 |   45.11x |
+|   Grafana   |    Native     |       83004.71 |    4.03x |
+|   Regexp2   |    Native     |      134163.71 |    2.50x |
+|  Regexp2cg  |   Compiler    |      152104.35 |    2.20x |
+|   Modernc   |    Native     |      330399.26 |    1.01x |
+| Go std lib  |    Native     |      334764.53 |    1.00x |
+|  Regexp2Go  |   Compiler    |                |          |
 
 Some interesting points:
 
-- Hyperscan is really fast at handling long regex pattern. It's even faster than when it's used for short regex.
+- Hyperscan is really fast at handling long regex pattern.
 - PCRE's performance become a lot slower for long regex compared to RE2 and Hyperscan. It's even slower than RE2 WASM.
 - For native Go code, Grafana is pretty fast at handling long regex pattern. It's even faster than regex that compiled by Regexp2Go.
-- For code without cgo, regex that compiled by re2go has the best performance. It has similar performance as Code Search.
-- For code without cgo but with full regex compatibility, RE2 WASM has the best performance (since Code Search currently can't be used as daily regex engine).
+- For code without cgo, regex that compiled by re2go has the best performance.
+- For code without cgo but with full regex compatibility, RE2 WASM has the best performance.
+- For some reasons code that generated by Regexp2Go doesn't work, so it's skipped for now.
 
 ## License
 
 Like the original benchmark, this benchmark is also released under MIT license.
 
 [original-benchmark]: https://github.com/karust/regex-benchmark
+[benchmark-old]: https://github.com/RadhiFadlillah/go-regex-benchmark
 [x-in-y]: https://github.com/adambard/learnxinyminutes-docs
 [grafana]: https://github.com/grafana/regexp/tree/speedup?tab=readme-ov-file
 [modernc]: https://gitlab.com/cznic/regexp
