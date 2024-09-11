@@ -4,20 +4,13 @@ package main
 func findIPs(bytes []byte) int {
 	var count int
 	var cur, mar int
-	lim := len(bytes)
-
-	// Peek function
-	peek := func(bytes []byte, cur int, lim int) byte {
-		if cur < lim {
-			return bytes[cur]
-		}
-		return 0
-	}
+	bytes = append(bytes, byte(0))
+	lim := len(bytes) - 1
 
 	for {
 		{
 			var yych byte
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1':
 				goto yy3
@@ -40,7 +33,7 @@ func findIPs(bytes []byte) int {
 		yy3:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy6
@@ -50,7 +43,7 @@ func findIPs(bytes []byte) int {
 		yy4:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4':
 				goto yy6
@@ -64,7 +57,7 @@ func findIPs(bytes []byte) int {
 		yy5:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy9
@@ -73,7 +66,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy6:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy10
@@ -87,7 +80,7 @@ func findIPs(bytes []byte) int {
 			goto yy2
 		yy8:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy10
@@ -98,7 +91,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy9:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy10
@@ -107,7 +100,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy10:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1':
 				goto yy11
@@ -120,7 +113,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy11:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy14
@@ -129,7 +122,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy12:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4':
 				goto yy14
@@ -142,7 +135,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy13:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy16
@@ -151,7 +144,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy14:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy17
@@ -162,7 +155,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy15:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy17
@@ -173,7 +166,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy16:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy17
@@ -182,7 +175,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy17:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1':
 				goto yy18
@@ -195,7 +188,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy18:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy21
@@ -204,7 +197,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy19:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4':
 				goto yy21
@@ -217,7 +210,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy20:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy23
@@ -226,7 +219,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy21:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy24
@@ -237,7 +230,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy22:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy24
@@ -248,7 +241,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy23:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '.':
 				goto yy24
@@ -257,7 +250,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy24:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1':
 				goto yy25
@@ -270,7 +263,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy25:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy28
@@ -279,7 +272,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy26:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4':
 				goto yy28
@@ -292,7 +285,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy27:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy31
@@ -301,7 +294,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy28:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy31
@@ -315,7 +308,7 @@ func findIPs(bytes []byte) int {
 			}
 		yy30:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5':
 				goto yy31

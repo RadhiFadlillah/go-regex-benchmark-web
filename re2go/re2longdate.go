@@ -4,15 +4,8 @@ package main
 func findLongDatePattern(bytes []byte) int {
 	var count int
 	var cur, mar int
-	lim := len(bytes)
-
-	// Peek function
-	peek := func(bytes []byte, cur int, lim int) byte {
-		if cur < lim {
-			return bytes[cur]
-		}
-		return 0
-	}
+	bytes = append(bytes, byte(0))
+	lim := len(bytes) - 1
 
 	// Capturing groups
 	var YYMAXNMATCH int = 7
@@ -24,7 +17,7 @@ func findLongDatePattern(bytes []byte) int {
 	for {
 		{
 			var yych byte
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3':
 				yyt1 = cur
@@ -133,7 +126,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy3:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -172,7 +165,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy4:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -209,7 +202,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy5:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'G':
 				fallthrough
@@ -241,7 +234,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy6:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -255,7 +248,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy7:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'K':
 				fallthrough
@@ -271,7 +264,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy8:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -285,7 +278,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy9:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -297,7 +290,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy10:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -315,7 +308,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy11:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -327,7 +320,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy12:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -345,7 +338,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy13:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -361,7 +354,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy14:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'C':
 				goto yy49
@@ -375,7 +368,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy15:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -387,7 +380,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy16:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -399,7 +392,7 @@ func findLongDatePattern(bytes []byte) int {
 		yy17:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0x9E:
 				goto yy54
@@ -408,7 +401,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy18:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -481,7 +474,7 @@ func findLongDatePattern(bytes []byte) int {
 			goto yy2
 		yy20:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -494,7 +487,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy21:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -530,7 +523,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy22:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'D':
 				fallthrough
@@ -541,7 +534,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy23:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -552,7 +545,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy24:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'H':
 				fallthrough
@@ -563,7 +556,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy25:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -574,7 +567,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy26:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -585,7 +578,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy27:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -596,7 +589,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy28:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -607,7 +600,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy29:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'G':
 				fallthrough
@@ -618,7 +611,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy30:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -629,7 +622,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy31:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -640,7 +633,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy32:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0x9F:
 				goto yy75
@@ -649,7 +642,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy33:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'c':
 				fallthrough
@@ -662,7 +655,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy34:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA9:
 				goto yy78
@@ -671,7 +664,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy35:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -682,7 +675,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy36:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -693,7 +686,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy37:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -704,7 +697,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy38:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA9:
 				goto yy82
@@ -713,7 +706,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy39:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'Z':
 				fallthrough
@@ -724,7 +717,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy40:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -735,7 +728,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy41:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -754,7 +747,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy42:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA4:
 				goto yy90
@@ -763,7 +756,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy43:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -774,7 +767,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy44:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -791,7 +784,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy45:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -802,7 +795,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy46:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA4:
 				goto yy95
@@ -811,7 +804,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy47:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -822,7 +815,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy48:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'V':
 				fallthrough
@@ -833,7 +826,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy49:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -848,7 +841,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy50:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -863,7 +856,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy51:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -874,7 +867,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy52:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'P':
 				fallthrough
@@ -885,7 +878,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy53:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -896,7 +889,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy54:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -907,7 +900,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy55:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'G':
 				fallthrough
@@ -938,7 +931,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy56:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -951,7 +944,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy57:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'K':
 				fallthrough
@@ -966,7 +959,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy58:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -979,7 +972,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy59:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -990,7 +983,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy60:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1007,7 +1000,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy61:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1018,7 +1011,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy62:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1035,7 +1028,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy63:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -1050,7 +1043,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy64:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'C':
 				goto yy129
@@ -1067,7 +1060,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy65:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -1078,7 +1071,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy66:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -1089,7 +1082,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy67:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0x9E:
 				goto yy135
@@ -1098,7 +1091,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy68:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -1109,7 +1102,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy69:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -1120,7 +1113,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy70:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1133,7 +1126,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy71:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1150,7 +1143,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy72:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1167,7 +1160,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy73:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1184,7 +1177,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy74:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -1195,7 +1188,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy75:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -1206,7 +1199,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy76:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1223,7 +1216,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy77:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -1234,7 +1227,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy78:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'C':
 				fallthrough
@@ -1245,7 +1238,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy79:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1262,7 +1255,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy80:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1277,7 +1270,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy81:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1298,7 +1291,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy82:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'V':
 				fallthrough
@@ -1309,7 +1302,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy83:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1326,7 +1319,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy84:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1347,7 +1340,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy85:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -1362,7 +1355,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy86:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'i':
 				fallthrough
@@ -1373,7 +1366,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy87:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'e':
 				fallthrough
@@ -1384,7 +1377,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy88:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1401,7 +1394,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy89:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1418,7 +1411,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy90:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -1429,7 +1422,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy91:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1444,7 +1437,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy92:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1469,7 +1462,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy93:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xC4:
 				goto yy154
@@ -1478,7 +1471,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy94:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1493,7 +1486,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy95:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -1504,7 +1497,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy96:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1521,7 +1514,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy97:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1538,7 +1531,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy98:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1555,7 +1548,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy99:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'O':
 				fallthrough
@@ -1566,7 +1559,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy100:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1583,7 +1576,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy101:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1600,7 +1593,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy102:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1617,7 +1610,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy103:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1634,7 +1627,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy104:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -1645,7 +1638,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy105:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -1656,7 +1649,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy106:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -1667,7 +1660,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy107:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -1678,7 +1671,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy108:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1689,7 +1682,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy109:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'G':
 				fallthrough
@@ -1700,7 +1693,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy110:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -1711,7 +1704,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy111:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -1722,7 +1715,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy112:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0x9F:
 				goto yy171
@@ -1731,7 +1724,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy113:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'c':
 				fallthrough
@@ -1744,7 +1737,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy114:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA9:
 				goto yy174
@@ -1753,7 +1746,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy115:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -1764,7 +1757,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy116:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -1775,7 +1768,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy117:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -1786,7 +1779,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy118:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA9:
 				goto yy178
@@ -1795,7 +1788,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy119:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'Z':
 				fallthrough
@@ -1806,7 +1799,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy120:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -1817,7 +1810,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy121:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -1836,7 +1829,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy122:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA4:
 				goto yy186
@@ -1845,7 +1838,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy123:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -1856,7 +1849,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy124:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -1873,7 +1866,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy125:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -1884,7 +1877,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy126:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xA4:
 				goto yy191
@@ -1893,7 +1886,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy127:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -1904,7 +1897,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy128:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'V':
 				fallthrough
@@ -1915,7 +1908,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy129:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1930,7 +1923,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy130:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -1943,7 +1936,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy131:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -1958,7 +1951,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy132:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -1969,7 +1962,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy133:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'P':
 				fallthrough
@@ -1980,7 +1973,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy134:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -1991,7 +1984,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy135:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -2002,7 +1995,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy136:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -2013,7 +2006,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy137:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3':
 				yyt3 = cur
@@ -2026,7 +2019,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy138:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xC4:
 				goto yy205
@@ -2035,7 +2028,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy139:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -2046,7 +2039,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy140:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -2057,7 +2050,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy141:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2074,7 +2067,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy142:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -2085,7 +2078,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy143:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -2096,7 +2089,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy144:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xBC:
 				goto yy140
@@ -2105,7 +2098,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy145:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -2116,7 +2109,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy146:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -2127,7 +2120,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy147:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -2138,7 +2131,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy148:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -2149,7 +2142,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy149:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -2160,7 +2153,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy150:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -2171,7 +2164,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy151:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -2182,7 +2175,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy152:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy212
@@ -2191,7 +2184,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy153:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'H':
 				fallthrough
@@ -2202,7 +2195,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy154:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy213
@@ -2211,7 +2204,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy155:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2228,7 +2221,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy156:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -2239,7 +2232,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy157:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -2250,7 +2243,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy158:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -2261,7 +2254,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy159:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -2272,7 +2265,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy160:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -2283,7 +2276,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy161:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -2294,7 +2287,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy162:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -2305,7 +2298,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy163:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2322,7 +2315,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy164:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -2333,7 +2326,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy165:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -2344,7 +2337,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy166:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2363,7 +2356,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy167:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2386,7 +2379,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy168:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2409,7 +2402,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy169:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2432,7 +2425,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy170:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -2443,7 +2436,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy171:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -2454,7 +2447,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy172:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2477,7 +2470,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy173:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -2488,7 +2481,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy174:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'C':
 				fallthrough
@@ -2499,7 +2492,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy175:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2522,7 +2515,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy176:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2543,7 +2536,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy177:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2570,7 +2563,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy178:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'V':
 				fallthrough
@@ -2581,7 +2574,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy179:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2604,7 +2597,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy180:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2631,7 +2624,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy181:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -2646,7 +2639,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy182:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'i':
 				fallthrough
@@ -2657,7 +2650,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy183:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'e':
 				fallthrough
@@ -2668,7 +2661,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy184:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2691,7 +2684,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy185:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2714,7 +2707,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy186:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -2725,7 +2718,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy187:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2746,7 +2739,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy188:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2777,7 +2770,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy189:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xC4:
 				goto yy236
@@ -2786,7 +2779,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy190:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2807,7 +2800,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy191:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -2818,7 +2811,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy192:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2841,7 +2834,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy193:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2864,7 +2857,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy194:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2887,7 +2880,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy195:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'O':
 				fallthrough
@@ -2898,7 +2891,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy196:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -2968,7 +2961,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy197:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -2991,7 +2984,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy198:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3014,7 +3007,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy199:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3037,7 +3030,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy200:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3060,7 +3053,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy201:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -3071,7 +3064,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy202:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -3082,7 +3075,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy203:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3120,7 +3113,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy204:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3156,7 +3149,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy205:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy252
@@ -3165,7 +3158,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy206:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -3176,7 +3169,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy207:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3187,7 +3180,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy208:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -3198,7 +3191,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy209:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3209,7 +3202,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy210:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3220,7 +3213,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy211:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3231,7 +3224,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy212:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3242,7 +3235,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy213:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -3253,7 +3246,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy214:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3264,7 +3257,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy215:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3279,7 +3272,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy216:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'Z':
 				fallthrough
@@ -3290,7 +3283,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy217:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -3301,7 +3294,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy218:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '1':
 				goto yy257
@@ -3312,7 +3305,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy219:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3325,7 +3318,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy220:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xC4:
 				goto yy259
@@ -3334,7 +3327,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy221:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -3345,7 +3338,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy222:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -3356,7 +3349,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy223:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3379,7 +3372,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy224:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3390,7 +3383,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy225:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3401,7 +3394,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy226:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xBC:
 				goto yy222
@@ -3410,7 +3403,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy227:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -3421,7 +3414,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy228:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3432,7 +3425,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy229:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3443,7 +3436,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy230:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -3454,7 +3447,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy231:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'I':
 				fallthrough
@@ -3465,7 +3458,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy232:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'L':
 				fallthrough
@@ -3476,7 +3469,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy233:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -3487,7 +3480,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy234:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy266
@@ -3496,7 +3489,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy235:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'H':
 				fallthrough
@@ -3507,7 +3500,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy236:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy267
@@ -3516,7 +3509,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy237:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3539,7 +3532,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy238:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'N':
 				fallthrough
@@ -3550,7 +3543,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy239:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3561,7 +3554,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy240:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -3572,7 +3565,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy241:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'C':
 				goto yy129
@@ -3585,7 +3578,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy242:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -3596,7 +3589,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy243:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'B':
 				fallthrough
@@ -3607,7 +3600,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy244:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3618,7 +3611,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy245:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -3629,7 +3622,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy246:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3652,7 +3645,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy247:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '1':
 				goto yy271
@@ -3663,7 +3656,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy248:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3676,7 +3669,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy249:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'D':
 				fallthrough
@@ -3687,7 +3680,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy250:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -3698,7 +3691,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy251:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'H':
 				fallthrough
@@ -3709,7 +3702,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy252:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'K':
 				fallthrough
@@ -3720,7 +3713,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy253:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'O':
 				fallthrough
@@ -3731,7 +3724,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy254:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3752,7 +3745,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy255:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3763,7 +3756,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy256:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'U':
 				fallthrough
@@ -3774,7 +3767,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy257:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '9':
 				goto yy274
@@ -3783,7 +3776,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy258:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0':
 				goto yy275
@@ -3792,7 +3785,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy259:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0xB1:
 				goto yy276
@@ -3801,7 +3794,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy260:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'T':
 				fallthrough
@@ -3812,7 +3805,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy261:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3823,7 +3816,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy262:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'A':
 				fallthrough
@@ -3834,7 +3827,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy263:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3845,7 +3838,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy264:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3856,7 +3849,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy265:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3867,7 +3860,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy266:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'M':
 				fallthrough
@@ -3878,7 +3871,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy267:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'S':
 				fallthrough
@@ -3889,7 +3882,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy268:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'R':
 				fallthrough
@@ -3900,7 +3893,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy269:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -3915,7 +3908,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy270:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'Z':
 				fallthrough
@@ -3926,7 +3919,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy271:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '9':
 				goto yy280
@@ -3935,7 +3928,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy272:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0':
 				goto yy281
@@ -3944,7 +3937,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy273:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -3959,7 +3952,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy274:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '9':
 				goto yy282
@@ -3968,7 +3961,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy275:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3':
 				goto yy282
@@ -3977,7 +3970,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy276:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'K':
 				fallthrough
@@ -3988,7 +3981,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy277:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'O':
 				fallthrough
@@ -3999,7 +3992,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy278:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '\t', '\n':
 				fallthrough
@@ -4026,7 +4019,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy279:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 'E':
 				fallthrough
@@ -4037,7 +4030,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy280:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '9':
 				goto yy283
@@ -4046,7 +4039,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy281:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3':
 				goto yy283
@@ -4055,7 +4048,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy282:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy284
@@ -4064,7 +4057,7 @@ func findLongDatePattern(bytes []byte) int {
 			}
 		yy283:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy286

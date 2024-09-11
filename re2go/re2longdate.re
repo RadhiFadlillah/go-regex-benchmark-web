@@ -3,15 +3,8 @@ package main
 func findLongDatePattern(bytes []byte) int {
 	var count int
 	var cur, mar int
-	lim := len(bytes)
-
-	// Peek function
-	peek := func(bytes []byte, cur int, lim int) byte {
-		if cur < lim {
-			return bytes[cur]
-		}
-		return 0
-	}
+	bytes = append(bytes, byte(0))
+	lim := len(bytes) - 1
 
 	// Capturing groups
 	/*!maxnmatch:re2c*/	yypmatch := make([]int, YYMAXNMATCH*2)
@@ -25,7 +18,7 @@ func findLongDatePattern(bytes []byte) int {
 		re2c:posix-captures = 1;
 		re2c:case-insensitive = 1;
 		re2c:define:YYCTYPE     = byte;
-		re2c:define:YYPEEK      = "peek(bytes, cur, lim)";
+		re2c:define:YYPEEK      = "bytes[cur]";
 		re2c:define:YYSKIP      = "cur += 1";
 		re2c:define:YYBACKUP    = "mar = cur";
 		re2c:define:YYRESTORE   = "cur = mar";

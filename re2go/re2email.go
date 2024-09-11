@@ -4,20 +4,13 @@ package main
 func findEmails(bytes []byte) int {
 	var count int
 	var cur, mar int
-	lim := len(bytes)
-
-	// Peek function
-	peek := func(bytes []byte, cur int, lim int) byte {
-		if cur < lim {
-			return bytes[cur]
-		}
-		return 0
-	}
+	bytes = append(bytes, byte(0))
+	lim := len(bytes) - 1
 
 	for {
 		{
 			var yych byte
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '+':
 				fallthrough
@@ -46,7 +39,7 @@ func findEmails(bytes []byte) int {
 		yy3:
 			cur += 1
 			mar = cur
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '+':
 				fallthrough
@@ -65,7 +58,7 @@ func findEmails(bytes []byte) int {
 			}
 		yy4:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 		yy5:
 			switch yych {
 			case '+':
@@ -90,7 +83,7 @@ func findEmails(bytes []byte) int {
 			goto yy2
 		yy7:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case 0x00:
 				goto yy6
@@ -101,7 +94,7 @@ func findEmails(bytes []byte) int {
 			}
 		yy8:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 		yy9:
 			switch yych {
 			case '-':
@@ -121,7 +114,7 @@ func findEmails(bytes []byte) int {
 			}
 		yy10:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '-', '.':
 				fallthrough
@@ -138,7 +131,7 @@ func findEmails(bytes []byte) int {
 			}
 		yy11:
 			cur += 1
-			yych = peek(bytes, cur, lim)
+			yych = bytes[cur]
 			switch yych {
 			case '-', '.':
 				fallthrough
