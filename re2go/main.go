@@ -6,26 +6,15 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-	"unicode/utf8"
 )
 
-func bytes2runes(src []byte) []rune {
-	runes := make([]rune, 0, len(src))
-	for len(src) > 0 {
-		r, size := utf8.DecodeRune(src)
-		runes = append(runes, r)
-		src = src[size:]
-	}
-	return runes
-}
-
-func openAllFiles(dir string) ([][]rune, error) {
+func openAllFiles(dir string) ([][]byte, error) {
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return nil, err
 	}
 
-	var files [][]rune
+	var files [][]byte
 	for _, entry := range entries {
 		if entry.IsDir() {
 			continue
@@ -37,13 +26,13 @@ func openAllFiles(dir string) ([][]rune, error) {
 			return nil, err
 		}
 
-		files = append(files, bytes2runes(file))
+		files = append(files, file)
 	}
 
 	return files, nil
 }
 
-func measure(allFiles [][]rune, rxFinder func([]rune) int) {
+func measure(allFiles [][]byte, rxFinder func([]byte) int) {
 	var count int
 	start := time.Now()
 	for i := range allFiles {

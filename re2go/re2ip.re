@@ -1,14 +1,14 @@
 package main
 
-func findIPs(runes []rune) int {
+func findIPs(bytes []byte) int {
 	var count int
 	var cur, mar int
-	lim := len(runes)
+	lim := len(bytes)
 
 	// Peek function
-	peek := func(runes []rune, cur int, lim int) rune {
+	peek := func(bytes []byte, cur int, lim int) byte {
 		if cur < lim {
-			return runes[cur]
+			return bytes[cur]
 		}
 		return 0
 	}
@@ -18,8 +18,8 @@ func findIPs(runes []rune) int {
 		re2c:yyfill:enable = 0;
 		re2c:posix-captures = 0;
 		re2c:case-insensitive = 0;
-		re2c:define:YYCTYPE     = rune;
-		re2c:define:YYPEEK      = "peek(runes, cur, lim)";
+		re2c:define:YYCTYPE     = byte;
+		re2c:define:YYPEEK      = "peek(bytes, cur, lim)";
 		re2c:define:YYSKIP      = "cur += 1";
 		re2c:define:YYBACKUP    = "mar = cur";
 		re2c:define:YYRESTORE   = "cur = mar";
