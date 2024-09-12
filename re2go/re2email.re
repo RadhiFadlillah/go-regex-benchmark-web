@@ -3,8 +3,8 @@ package main
 func findEmails(bytes []byte) int {
 	var count int
 	var cur, mar int
-	bytes = append(bytes, byte(0))
-	lim := len(bytes) - 1
+	bytes = append(bytes, byte(0)) // add terminating null
+	lim := len(bytes) - 1 // lim points at the terminating null
 
 	for { /*!re2c
 		re2c:eof = 0;
@@ -21,11 +21,13 @@ func findEmails(bytes []byte) int {
 		re2c:define:YYSTAGN     = "@@{tag} = -1";
 		re2c:define:YYSHIFTSTAG = "@@{tag} += @@{shift}";
 
-		email = [\+\-\.0-9A-Z_a-z]+@[\-\.0-9A-Z_a-z]+[\.][\-\.0-9A-Z_a-z]+;
+		email = [+\-.0-9A-Z_a-z]+@[\-.0-9A-Z_a-z]+[.][\-.0-9A-Z_a-z]+;
+		base64 = [;]base64[,][+0-9A-Za-z/]+[=]*;
 
-		{email} { count += 1; continue }
-		*       { continue }
-		$       { return count }
+		{base64} { continue }
+		{email}  { count += 1; continue }
+		*        { continue }
+		$        { return count }
 		*/
 	}
 }

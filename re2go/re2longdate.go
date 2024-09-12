@@ -8,10 +8,10 @@ func findLongDatePattern(bytes []byte) int {
 	lim := len(bytes) - 1
 
 	// Capturing groups
-	var YYMAXNMATCH int = 7
+	var YYMAXNMATCH int = 4
 	yypmatch := make([]int, YYMAXNMATCH*2)
 	var yynmatch int
-	var yyt1, yyt2, yyt3, yyt4, yyt5, yyt6, yyt7, yyt8, yyt9, yyt10 int
+	var yyt1, yyt2, yyt3, yyt4 int
 	_ = yynmatch
 
 	for {
@@ -21,99 +21,76 @@ func findLongDatePattern(bytes []byte) int {
 			switch yych {
 			case '0', '1', '2', '3':
 				yyt1 = cur
-				yyt2 = -1
-				yyt3 = -1
-				yyt4 = -1
-				yyt5 = -1
-				yyt6 = cur
 				goto yy3
 			case '4', '5', '6', '7', '8', '9':
 				yyt1 = cur
-				yyt2 = -1
-				yyt3 = -1
-				yyt4 = -1
-				yyt5 = -1
-				yyt6 = cur
 				goto yy4
 			case 'A':
 				fallthrough
 			case 'a':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy5
 			case 'D':
 				fallthrough
 			case 'd':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy6
 			case 'E':
 				fallthrough
 			case 'e':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy7
 			case 'F':
 				fallthrough
 			case 'f':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy8
 			case 'H':
 				fallthrough
 			case 'h':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy9
 			case 'J':
 				fallthrough
 			case 'j':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy10
 			case 'K':
 				fallthrough
 			case 'k':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy11
 			case 'M':
 				fallthrough
 			case 'm':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy12
 			case 'N':
 				fallthrough
 			case 'n':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy13
 			case 'O':
 				fallthrough
 			case 'o':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy14
 			case 'S':
 				fallthrough
 			case 's':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy15
 			case 'T':
 				fallthrough
 			case 't':
 				yyt1 = cur
-				yyt2 = cur
 				goto yy16
 			case 0xC5:
 				yyt1 = cur
-				yyt2 = cur
 				goto yy17
 			default:
 				if lim <= cur {
-					goto yy287
+					goto yy286
 				}
 				goto yy1
 			}
@@ -133,10 +110,10 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy18
 			case '.':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy20
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy21
@@ -147,17 +124,17 @@ func findLongDatePattern(bytes []byte) int {
 			case 'n':
 				fallthrough
 			case 'r':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy22
 			case 'S':
 				fallthrough
 			case 's':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy23
 			case 'T':
 				fallthrough
 			case 't':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy24
 			default:
 				goto yy2
@@ -172,10 +149,10 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy18
 			case '.':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy20
 			case 'N':
 				fallthrough
@@ -184,17 +161,17 @@ func findLongDatePattern(bytes []byte) int {
 			case 'n':
 				fallthrough
 			case 'r':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy22
 			case 'S':
 				fallthrough
 			case 's':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy23
 			case 'T':
 				fallthrough
 			case 't':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy24
 			default:
 				goto yy2
@@ -406,65 +383,65 @@ func findLongDatePattern(bytes []byte) int {
 			case 'A':
 				fallthrough
 			case 'a':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy55
 			case 'D':
 				fallthrough
 			case 'd':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy56
 			case 'E':
 				fallthrough
 			case 'e':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy57
 			case 'F':
 				fallthrough
 			case 'f':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy58
 			case 'H':
 				fallthrough
 			case 'h':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy59
 			case 'J':
 				fallthrough
 			case 'j':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy60
 			case 'K':
 				fallthrough
 			case 'k':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy61
 			case 'M':
 				fallthrough
 			case 'm':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy62
 			case 'N':
 				fallthrough
 			case 'n':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy63
 			case 'O':
 				fallthrough
 			case 'o':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy64
 			case 'S':
 				fallthrough
 			case 's':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy65
 			case 'T':
 				fallthrough
 			case 't':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy66
 			case 0xC5:
-				yyt10 = cur
+				yyt4 = cur
 				goto yy67
 			default:
 				goto yy19
@@ -494,10 +471,10 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy18
 			case '.':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy20
 			case 'N':
 				fallthrough
@@ -506,17 +483,17 @@ func findLongDatePattern(bytes []byte) int {
 			case 'n':
 				fallthrough
 			case 'r':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy22
 			case 'S':
 				fallthrough
 			case 's':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy23
 			case 'T':
 				fallthrough
 			case 't':
-				yyt7 = cur
+				yyt2 = cur
 				goto yy24
 			default:
 				goto yy19
@@ -2009,10 +1986,10 @@ func findLongDatePattern(bytes []byte) int {
 			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3':
-				yyt3 = cur
+				yyt2 = cur
 				goto yy203
 			case '4', '5', '6', '7', '8', '9':
-				yyt3 = cur
+				yyt2 = cur
 				goto yy204
 			default:
 				goto yy19
@@ -2344,12 +2321,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			default:
 				goto yy19
@@ -2363,12 +2340,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'L':
 				fallthrough
@@ -2386,12 +2363,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'U':
 				fallthrough
@@ -2409,12 +2386,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'I':
 				fallthrough
@@ -2454,12 +2431,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'E':
 				fallthrough
@@ -2499,12 +2476,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'M':
 				fallthrough
@@ -2522,12 +2499,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 0xC3:
 				goto yy226
@@ -2543,12 +2520,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'E':
 				fallthrough
@@ -2581,12 +2558,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'I':
 				fallthrough
@@ -2604,12 +2581,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'U':
 				fallthrough
@@ -2668,12 +2645,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'i':
 				fallthrough
@@ -2691,12 +2668,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'e':
 				fallthrough
@@ -2725,12 +2702,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 0xC4:
 				goto yy234
@@ -2746,12 +2723,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'C':
 				fallthrough
@@ -2786,12 +2763,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 0xC4:
 				goto yy236
@@ -2818,12 +2795,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'A':
 				fallthrough
@@ -2841,12 +2818,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'E':
 				fallthrough
@@ -2864,12 +2841,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'K':
 				fallthrough
@@ -2896,65 +2873,65 @@ func findLongDatePattern(bytes []byte) int {
 			case 'A':
 				fallthrough
 			case 'a':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy55
 			case 'D':
 				fallthrough
 			case 'd':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy56
 			case 'E':
 				fallthrough
 			case 'e':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy57
 			case 'F':
 				fallthrough
 			case 'f':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy58
 			case 'H':
 				fallthrough
 			case 'h':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy59
 			case 'J':
 				fallthrough
 			case 'j':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy60
 			case 'K':
 				fallthrough
 			case 'k':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy61
 			case 'M':
 				fallthrough
 			case 'm':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy62
 			case 'N':
 				fallthrough
 			case 'n':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy63
 			case 'O':
 				fallthrough
 			case 'o':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy241
 			case 'S':
 				fallthrough
 			case 's':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy65
 			case 'T':
 				fallthrough
 			case 't':
-				yyt10 = cur
+				yyt4 = cur
 				goto yy66
 			case 0xC5:
-				yyt10 = cur
+				yyt4 = cur
 				goto yy67
 			default:
 				goto yy19
@@ -2968,12 +2945,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'O':
 				fallthrough
@@ -2991,12 +2968,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'O':
 				fallthrough
@@ -3014,12 +2991,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'T':
 				fallthrough
@@ -3037,12 +3014,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'M':
 				fallthrough
@@ -3082,10 +3059,10 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy247
 			case ',':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy248
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 				goto yy204
@@ -3096,17 +3073,17 @@ func findLongDatePattern(bytes []byte) int {
 			case 'n':
 				fallthrough
 			case 'r':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy249
 			case 'S':
 				fallthrough
 			case 's':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy250
 			case 'T':
 				fallthrough
 			case 't':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy251
 			default:
 				goto yy19
@@ -3120,10 +3097,10 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy247
 			case ',':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy248
 			case 'N':
 				fallthrough
@@ -3132,17 +3109,17 @@ func findLongDatePattern(bytes []byte) int {
 			case 'n':
 				fallthrough
 			case 'r':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy249
 			case 'S':
 				fallthrough
 			case 's':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy250
 			case 'T':
 				fallthrough
 			case 't':
-				yyt4 = cur
+				yyt3 = cur
 				goto yy251
 			default:
 				goto yy19
@@ -3356,12 +3333,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'S':
 				fallthrough
@@ -3516,12 +3493,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'Z':
 				fallthrough
@@ -3629,12 +3606,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'A':
 				fallthrough
@@ -3999,12 +3976,12 @@ func findLongDatePattern(bytes []byte) int {
 			case '\f', '\r':
 				fallthrough
 			case ' ':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy218
 			case ',':
 				fallthrough
 			case '.':
-				yyt8 = cur
+				yyt3 = cur
 				goto yy219
 			case 'I':
 				fallthrough
@@ -4060,57 +4037,44 @@ func findLongDatePattern(bytes []byte) int {
 			yych = bytes[cur]
 			switch yych {
 			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-				goto yy286
+				goto yy285
 			default:
 				goto yy19
 			}
 		yy284:
 			cur += 1
-			yyt9 = cur
-		yy285:
-			yynmatch = 7
+			yynmatch = 4
+			yypmatch[2] = yyt1
+			yypmatch[3] = yyt2
+			yypmatch[4] = yyt4
+			yypmatch[5] = yyt3
 			yypmatch[0] = yyt1
-			yypmatch[2] = yyt2
-			yypmatch[4] = yyt3
-			yypmatch[5] = yyt4
-			yypmatch[7] = yyt5
-			yypmatch[8] = yyt6
-			yypmatch[9] = yyt7
-			yypmatch[10] = yyt10
-			yypmatch[11] = yyt8
-			yypmatch[13] = yyt9
 			yypmatch[1] = cur
-			yypmatch[3] = yyt3
-			yypmatch[6] = yyt5
-			yypmatch[12] = yyt9
-			/* materialize no-match value */
-			yyt3 = -1
-			if yypmatch[3] != yyt3 {
-				yypmatch[3] += -1
-			}
-			if yypmatch[6] != yyt3 {
-				yypmatch[6] += -4
-			}
-			if yypmatch[12] != yyt3 {
-				yypmatch[12] += -4
-			}
+			yypmatch[6] = cur
+			yypmatch[6] += -4
+			yypmatch[7] = cur
 			{
-				if yynmatch != 7 {
-					panic("expected 7 submatch groups")
-				}
+				count += 1
+				continue
+			}
+		yy285:
+			cur += 1
+			yynmatch = 4
+			yypmatch[2] = yyt1
+			yypmatch[4] = yyt2
+			yypmatch[5] = yyt3
+			yypmatch[0] = yyt1
+			yypmatch[1] = cur
+			yypmatch[3] = yyt2
+			yypmatch[3] += -1
+			yypmatch[6] = cur
+			yypmatch[6] += -4
+			yypmatch[7] = cur
+			{
 				count += 1
 				continue
 			}
 		yy286:
-			cur += 1
-			yyt5 = cur
-			yyt6 = -1
-			yyt7 = -1
-			yyt8 = -1
-			yyt9 = -1
-			yyt10 = -1
-			goto yy285
-		yy287:
 			{
 				return count
 			}
