@@ -1,13 +1,17 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
+	"sync"
 	"time"
 
 	pcre "github.com/GRbit/go-pcre"
+	"golang.org/x/sync/semaphore"
 )
 
 func openAllFiles(dir string) ([][]byte, error) {
@@ -35,18 +39,45 @@ func openAllFiles(dir string) ([][]byte, error) {
 }
 
 func measure(allFiles [][]byte, pattern string) {
+	// Compile regex
 	r, err := pcre.CompileJIT(pattern, 0, pcre.STUDY_JIT_COMPILE)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Prepare counter
+	var mu sync.Mutex
 	var count int
+
+	// Prepare wait group
+	var wg sync.WaitGroup
+	ctx := context.TODO()
+	maxWorkers := runtime.GOMAXPROCS(0)
+	sem := semaphore.NewWeighted(int64(maxWorkers))
+
 	start := time.Now()
 	for i := range allFiles {
-		count += len(r.FindAllIndex(allFiles[i], 0))
-	}
-	elapsed := time.Since(start)
+		if err := sem.Acquire(ctx, 1); err != nil {
+			log.Fatalf("failed to acquire semaphore: %v", err)
+		}
 
+		wg.Add(1)
+		go func(input []byte) {
+			defer func() {
+				wg.Done()
+				sem.Release(1)
+			}()
+
+			matches := r.FindAllIndex(input, 0)
+
+			mu.Lock()
+			count += len(matches)
+			mu.Unlock()
+		}(allFiles[i])
+	}
+
+	wg.Wait()
+	elapsed := time.Since(start)
 	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
 }
 

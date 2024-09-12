@@ -1,12 +1,17 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"regexp2go/internal/re"
+	"runtime"
+	"sync"
 	"time"
+
+	"golang.org/x/sync/semaphore"
 )
 
 type RegexPattern[MatchType any] interface {
@@ -38,26 +43,47 @@ func openAllFiles(dir string) ([][]byte, error) {
 }
 
 func measure[T [1][]byte | [7][]byte](allFiles [][]byte, pattern RegexPattern[T]) {
+	// Prepare counter
+	var mu sync.Mutex
 	var count int
+
+	// Prepare wait group
+	var wg sync.WaitGroup
+	ctx := context.TODO()
+	maxWorkers := runtime.GOMAXPROCS(0)
+	sem := semaphore.NewWeighted(int64(maxWorkers))
+
 	start := time.Now()
-
-	for _, data := range allFiles {
-		var cursor int
-		limit := len(data)
-
-		for {
-			matches, pos, ok := pattern.Find(data[cursor:])
-			if ok {
-				count++
-				cursor += pos + len(matches[0])
-				if cursor <= limit {
-					continue
-				}
-			}
-			break
+	for i := range allFiles {
+		if err := sem.Acquire(ctx, 1); err != nil {
+			log.Fatalf("failed to acquire semaphore: %v", err)
 		}
+
+		wg.Add(1)
+		go func(input []byte) {
+			var cursor int
+			var nMatches int
+			limit := len(input)
+
+			for {
+				matches, pos, ok := pattern.Find(input[cursor:])
+				if ok {
+					nMatches++
+					cursor += pos + len(matches[0])
+					if cursor <= limit {
+						continue
+					}
+				}
+				break
+			}
+
+			mu.Lock()
+			count += nMatches
+			mu.Unlock()
+		}(allFiles[i])
 	}
 
+	wg.Wait()
 	elapsed := time.Since(start)
 	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
 }

@@ -1,14 +1,18 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
+	"sync"
 	"time"
 	"unicode/utf8"
 
 	regexp "github.com/dlclark/regexp2"
+	"golang.org/x/sync/semaphore"
 )
 
 var (
@@ -53,17 +57,44 @@ func openAllFiles(dir string) ([][]rune, error) {
 }
 
 func measure(allFiles [][]rune, r *regexp.Regexp) {
+	// Prepare counter
+	var mu sync.Mutex
 	var count int
+
+	// Prepare wait group
+	var wg sync.WaitGroup
+	ctx := context.TODO()
+	maxWorkers := runtime.GOMAXPROCS(0)
+	sem := semaphore.NewWeighted(int64(maxWorkers))
+
 	start := time.Now()
 	for i := range allFiles {
-		m, _ := r.FindRunesMatch(allFiles[i])
-		for m != nil {
-			count++
-			m, _ = r.FindNextMatch(m)
+		if err := sem.Acquire(ctx, 1); err != nil {
+			log.Fatalf("failed to acquire semaphore: %v", err)
 		}
-	}
-	elapsed := time.Since(start)
 
+		wg.Add(1)
+		go func(input []rune) {
+			defer func() {
+				wg.Done()
+				sem.Release(1)
+			}()
+
+			var nMatches int
+			m, _ := r.FindRunesMatch(allFiles[i])
+			for m != nil {
+				nMatches++
+				m, _ = r.FindNextMatch(m)
+			}
+
+			mu.Lock()
+			count += nMatches
+			mu.Unlock()
+		}(allFiles[i])
+	}
+
+	wg.Wait()
+	elapsed := time.Since(start)
 	fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
 }
 
