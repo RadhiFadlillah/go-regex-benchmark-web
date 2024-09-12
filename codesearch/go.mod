@@ -1,4 +1,4 @@
-module stdgo
+module codesearch
 
 go 1.22.5
 

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp2/internal/re"
+	"regexp2go/internal/re"
 	"time"
 )
 

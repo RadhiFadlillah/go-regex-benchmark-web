@@ -1,4 +1,4 @@
-module regexp2
+module regexp2cg
 
 go 1.22.5
 
