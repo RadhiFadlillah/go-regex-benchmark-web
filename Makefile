@@ -19,6 +19,6 @@ build-all:
 	@make -C re2
 	@make -C re2go
 	@make -C regexp2
-	@make -C regexp2c
+	@make -C regexp2cg
 	@make -C regexp2go
 	@make -C stdgo

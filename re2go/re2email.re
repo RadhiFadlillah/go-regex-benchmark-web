@@ -21,11 +21,11 @@ func findEmails(bytes []byte) int {
 		re2c:define:YYSTAGN     = "@@{tag} = -1";
 		re2c:define:YYSHIFTSTAG = "@@{tag} += @@{shift}";
 
-		email = [+\-.0-9A-Z_a-z]+@[\-.0-9A-Z_a-z]+[.][\-.0-9A-Z_a-z]+;
-		base64 = [;]base64[,][+0-9A-Za-z/]+[=]*;
+		email  = [+\-.0-9A-Z_a-z]+@[\-.0-9A-Z_a-z]+[.][\-.0-9A-Z_a-z]+;
+		prefix = [+\-.0-9A-Z_a-z]+;
 
-		{base64} { continue }
 		{email}  { count += 1; continue }
+		{prefix} { continue }
 		*        { continue }
 		$        { return count }
 		*/

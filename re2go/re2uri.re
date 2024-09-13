@@ -22,10 +22,10 @@ func findURIs(bytes []byte) int {
 		re2c:define:YYSHIFTSTAG = "@@{tag} += @@{shift}";
 
 		uri    = [0-9A-Z_a-z]+:[/][/][^\t\n\f\r #/\?]+[^\t\n\f\r #\?]+(![?][^\t\n\f\r #]*)?(!#[^\t\n\f\r ]*)?;
-		base64 = [;]base64[,][+0-9A-Za-z/]+[=]*;
+		prefix = [0-9A-Z_a-z]+;
 
-		{base64} { continue }
 		{uri}    { count += 1; continue }
+		{prefix} { continue }
 		*        { continue }
 		$        { return count }
 		*/
