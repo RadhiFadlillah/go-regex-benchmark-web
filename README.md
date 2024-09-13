@@ -1,8 +1,10 @@
-# Go Regex Benchmark Web
+# Go Regex Benchmark Web - Single Thread
 
 This repo is a benchmark for various Golang's regular expressions library. Based on my benchmark [here][benchmark-old], which is based on benchmark by Rustem Kamalov [here][original-benchmark].
 
 For its input, this benchmark use 1,058 web pages in [`000-input-files`](./000-input-files) directory. Hopefully it's good enough as representation of real world content.
+
+The benchmark in this branch run in a single thread. In the real world, usually we use goroutine to concurrently extract data from web pages. If you are interested in the performance for concurrent regex matching, please check out the [`concurrent`][concurrent-branch] branch in this repository.
 
 ## Table of Contents
 
@@ -121,27 +123,26 @@ There are 12 regular expressions that used in this benchmark:
 
 ## Result
 
-Another note, re2go as a compiler has its own way to handle regular expressions. Thanks to this, in this benchmark its result for email and URI is a bit "unfair" compared to the other packages. This is because for those cases re2go need to use two patterns to handle one regex to achieve a good performance. For more details, please check out [this issue][re2go-issue] where I discuss re2go performance with its maintainer.
+Since re2go is a compiler, it has its own way to handle regular expressions. Thanks to this, in this benchmark its result for email and URI is a bit "unfair" compared to the other packages. This is because for those cases re2go templates in this benchmark is optimized with multiple rules to handle regex with quantifier groups. For more details, please check out [this issue][re2go-issue] where I discuss re2go performance with its maintainer.
 
 With that out of the way, here is the benchmark result. The benchmark was run on my Linux PC with Intel i7-8550U and RAM 16 GB.
 
 ### Short Regex
 
-|     Package      |     Type      | Email (ms) |  URI (ms) |  IP (ms) | Total (ms) |  Times |
-| :--------------: | :-----------: | ---------: | --------: | -------: | ---------: | -----: |
-|     RE2 CGO      |      CGO      |     221.29 |    345.34 |   224.52 |     791.15 | 30.07x |
-|   Code Search    | Native (Grep) |     263.00 |    300.81 |   257.84 |     821.65 | 28.96x |
-|      re2go       |   Compiler    |     376.29 |    343.92 |   227.24 |     947.45 | 25.11x |
-|       PCRE       |      CGO      |     764.56 |    486.42 |   462.49 |    1713.47 | 13.89x |
-|    Hyperscan     |      CGO      |     595.38 |   2654.13 |    41.14 |    3290.65 |  7.23x |
-|     RE2 WASM     |     WASM      |    1189.12 |   1533.30 |  1187.08 |    3909.50 |  6.09x |
-| Go + Code Search |    Native     |     652.65 |   4183.02 |   722.45 |    5558.12 |  4.28x |
-|        Go        |    Native     |    6544.45 |   6926.63 | 10321.36 |   23792.44 |  1.00x |
-|     Grafana      |    Native     |    6600.02 |   7148.91 | 10169.21 |   23918.14 |  0.99x |
-|     Modernc      |    Native     |    6715.16 |   7216.19 | 10309.89 |   24241.23 |  0.98x |
-|    Regexp2cg     |   Compiler    |  452673.57 | 191651.48 |  2899.08 |  647224.13 |  0.04x |
-|     Regexp2      |    Native     |  568837.37 | 239814.81 |  3717.81 |  812369.98 |  0.03x |
-|    Regexp2Go     |   Compiler    |            |           |          |            |        |
+|   Package   |     Type      | Email (ms) |  URI (ms) |  IP (ms) | Total (ms) |  Times |
+| :---------: | :-----------: | ---------: | --------: | -------: | ---------: | -----: |
+|   RE2 CGO   |      CGO      |     225.71 |    349.68 |   226.36 |     801.75 | 30.41x |
+| Code Search | Native (Grep) |     271.46 |    306.39 |   264.06 |     841.91 | 28.96x |
+|    re2go    |   Compiler    |     345.57 |    347.67 |   247.79 |     941.03 | 25.91x |
+|    PCRE     |      CGO      |     740.37 |    490.78 |   454.93 |    1686.07 | 14.46x |
+|  Hyperscan  |      CGO      |     574.69 |   2648.23 |    38.40 |    3261.31 |  7.48x |
+|  RE2 WASM   |     WASM      |    1218.09 |   1572.39 |  1179.84 |    3970.32 |  6.14x |
+|   Grafana   |    Native     |    6423.05 |   6797.46 |  9745.42 |   22965.93 |  1.06x |
+|   Modernc   |    Native     |    6535.50 |   6990.07 | 10073.13 |   23598.70 |  1.03x |
+|     Go      |    Native     |    6578.08 |   7258.12 | 10547.10 |   24383.30 |  1.00x |
+|  Regexp2cg  |   Compiler    |  466607.62 | 194127.00 |  2865.17 |  663599.79 |  0.04x |
+|   Regexp2   |    Native     |  569453.46 | 238478.29 |  3617.17 |  811548.92 |  0.03x |
+|  Regexp2Go  |   Compiler    |            |           |          |            |        |
 
 Some interesting points:
 
@@ -152,21 +153,20 @@ Some interesting points:
 
 ### Long Regex
 
-|     Package      |     Type      | Long Date (ms) |    Times |
-| :--------------: | :-----------: | -------------: | -------: |
-|    Hyperscan     |      CGO      |          52.81 | 6338.55x |
-|     RE2 CGO      |      CGO      |         233.61 | 1432.99x |
-|   Code Search    | Native (Grep) |         365.35 |  916.30x |
-|      re2go       |   Compiler    |         812.32 |  412.11x |
-|     RE2 WASM     |     WASM      |        1201.96 |  278.51x |
-|       PCRE       |      CGO      |        7421.20 |   45.11x |
-| Go + Code Search |    Native     |       24349.05 |   13.75x |
-|     Grafana      |    Native     |       83004.71 |    4.03x |
-|     Regexp2      |    Native     |      134163.71 |    2.50x |
-|    Regexp2cg     |   Compiler    |      152104.35 |    2.20x |
-|     Modernc      |    Native     |      330399.26 |    1.01x |
-|        Go        |    Native     |      334764.53 |    1.00x |
-|    Regexp2Go     |   Compiler    |                |          |
+|    Name     |     Type      | Long Date (ms) |    Times |
+| :---------: | :-----------: | -------------: | -------: |
+|  Hyperscan  |      CGO      |          49.47 | 6621.79x |
+|   RE2 CGO   |      CGO      |         233.94 | 1400.23x |
+| Code Search | Native (Grep) |         325.22 | 1007.24x |
+|    re2go    |   Compiler    |         816.94 |  400.98x |
+|  RE2 WASM   |     WASM      |        1209.89 |  270.75x |
+|    PCRE     |      CGO      |        7169.57 |   45.69x |
+|   Grafana   |    Native     |       81915.87 |    4.00x |
+|   Regexp2   |    Native     |      134949.92 |    2.43x |
+|  Regexp2cg  |   Compiler    |      151477.13 |    2.16x |
+|   Modernc   |    Native     |      324423.58 |    1.01x |
+|     Go      |    Native     |      327573.46 |    1.00x |
+|  Regexp2Go  |   Compiler    |                |          |
 
 Some interesting points:
 
@@ -183,6 +183,7 @@ Like the original benchmark, this benchmark is also released under MIT license.
 
 [original-benchmark]: https://github.com/karust/regex-benchmark
 [benchmark-old]: https://github.com/RadhiFadlillah/go-regex-benchmark
+[concurrent-branch]: https://github.com/RadhiFadlillah/go-regex-benchmark-web/tree/concurrent
 [x-in-y]: https://github.com/adambard/learnxinyminutes-docs
 [grafana]: https://github.com/grafana/regexp/tree/speedup?tab=readme-ov-file
 [modernc]: https://gitlab.com/cznic/regexp

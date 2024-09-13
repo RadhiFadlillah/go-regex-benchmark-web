@@ -4991,8 +4991,14 @@ var set_f8012346c36030544407c813dd9113ad6c1c8080037c9de30fcfa701bc6d3567 = synta
 // The set [^\#/\?\s]
 var set_201e66754544c28afd79d8418937f5372d668f4011ef28456fbb0936ea3e0238 = syntax.NewCharSetRuntime("\x01\x03\x00\x00\x00\x01\x00\x00\x00##//??\x01 ")
 
+// The set [^\#\?\s]
+var set_d224ef67dc0f70cf5e774cc9c41501d7c305e2a2d786eb4c19dc0484e59b68fd = syntax.NewCharSetRuntime("\x01\x02\x00\x00\x00\x01\x00\x00\x00##??\x01 ")
+
 // The set [^\#\s]
 var set_0811f1ec56483a6ff109ad6cdaabc3ae0d433e896a4b209895d649eca8b8e591 = syntax.NewCharSetRuntime("\x01\x01\x00\x00\x00\x01\x00\x00\x00##\x01 ")
+
+// The set [CKckK]
+var set_c585570961bd1835f850d6a9b56e3766bcb037a62b1dbc82686b27dd542a929b = syntax.NewCharSetRuntime("\x00\x05\x00\x00\x00\x00\x00\x00\x00CCKKcckkKK")
 
 // The set [CSZcszſ]
 var set_54fec145c186052ca441a68ab7e5bcb6ce2ab384ff76b5756c3e7264dde6df4b = syntax.NewCharSetRuntime("\x00\a\x00\x00\x00\x00\x00\x00\x00CCSSZZccsszzſſ")
@@ -5003,14 +5009,8 @@ var set_0aed9828638bbe7e52933e044a08751d611ecbcf65fa3d7b353e7a1eecc9c411 = synta
 // The set [-\.\w]
 var set_bc507dd5628b7f62f93ecd744fb34f2123f824a49c4534ea1e4a3bc3e53aed33 = syntax.NewCharSetRuntime("\x00\x01\x00\x00\x00\x01\x00\x00\x00-.\x01W")
 
-// The set [^\#\?\s]
-var set_d224ef67dc0f70cf5e774cc9c41501d7c305e2a2d786eb4c19dc0484e59b68fd = syntax.NewCharSetRuntime("\x01\x02\x00\x00\x00\x01\x00\x00\x00##??\x01 ")
-
 // Supports searching for the chars in or not in "0123456789ADEFHJKMNOSTadefhjkmnostŞşſK"
 var sNonAscii2425845632ac04d3dc6b5f60352d44d25fa35aaf888d12722b964c9ace2b4cd4 = helpers.NewRuneSearchValues("0123456789ADEFHJKMNOSTadefhjkmnostŞşſK")
-
-// The set [CKckK]
-var set_c585570961bd1835f850d6a9b56e3766bcb037a62b1dbc82686b27dd542a929b = syntax.NewCharSetRuntime("\x00\x05\x00\x00\x00\x00\x00\x00\x00CCKKcckkKK")
 
 func init() {
 	regexp2.RegisterEngine("[\\w\\.+-]+@[\\w\\.-]+\\.[\\w\\.-]+", regexp2.None, &rxEmail_Engine{})

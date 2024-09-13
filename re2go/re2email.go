@@ -65,12 +65,18 @@ func findEmails(bytes []byte) int {
 			cur += 1
 			yych = bytes[cur]
 			switch yych {
-			case 0x00:
-				goto yy5
-			case '.':
+			case '-', '.':
+				fallthrough
+			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+				fallthrough
+			case 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z':
+				fallthrough
+			case '_':
+				fallthrough
+			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z':
 				goto yy6
 			default:
-				goto yy7
+				goto yy5
 			}
 		yy5:
 			cur = mar
@@ -78,7 +84,6 @@ func findEmails(bytes []byte) int {
 		yy6:
 			cur += 1
 			yych = bytes[cur]
-		yy7:
 			switch yych {
 			case '-':
 				fallthrough
@@ -93,7 +98,11 @@ func findEmails(bytes []byte) int {
 			case '.':
 				goto yy8
 			default:
-				goto yy5
+				goto yy7
+			}
+		yy7:
+			{
+				continue
 			}
 		yy8:
 			cur += 1
@@ -110,7 +119,7 @@ func findEmails(bytes []byte) int {
 			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z':
 				goto yy9
 			default:
-				goto yy5
+				goto yy7
 			}
 		yy9:
 			cur += 1
